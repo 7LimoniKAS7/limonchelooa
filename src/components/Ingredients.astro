@@ -1,0 +1,48 @@
+---
+const list = [
+  "Handpicked lemons from Kaş, Antalya",
+  "Premium vodka — never diluted with low-quality alcohol (brand undisclosed)",
+  "Natural sugar",
+  "No preservatives",
+];
+---
+
+<section
+  id="ingredients"
+  class="scroll-mt-24 bg-gradient-to-b from-lemon-50 via-lemon-100 to-lemon-50 px-4 py-20 md:px-6 md:py-24"
+  aria-labelledby="ingredients-heading"
+>
+  <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+    <div>
+      <h2
+        id="ingredients-heading"
+        class="font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl"
+      >
+        Pure Ingredients Only
+      </h2>
+      <p class="mt-4 max-w-md text-sm font-light leading-relaxed text-ink/75 md:text-base">
+        Transparency without compromise—every element in the bottle earns its
+        place.
+      </p>
+    </div>
+    <ul class="space-y-4" role="list">
+      {
+        list.map((item, i) => (
+          <li
+            class="flex items-start gap-4 rounded-2xl border border-lemon-300/45 bg-white/85 px-5 py-4 shadow-sm backdrop-blur-sm transition-colors duration-300 hover:border-gold/40 hover:bg-white"
+          >
+            <span
+              class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-lemon-200/80 text-xs font-bold text-gold-dark"
+              aria-hidden="true"
+            >
+              {i + 1}
+            </span>
+            <span class="text-sm font-light leading-relaxed text-ink md:text-base">
+              {item}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

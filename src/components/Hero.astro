@@ -1,0 +1,83 @@
+---
+import { Image } from "astro:assets";
+import heroImage from "../assets/background2/hero.png";
+import scrimUrl from "../assets/background2/hero-scrim.svg?url";
+import overlayUrl from "../assets/background2/hero-overlay.svg?url";
+---
+
+<section
+  id="hero"
+  class="relative flex min-h-[88vh] scroll-mt-20 flex-col items-center justify-center overflow-hidden px-4 py-24 text-center md:min-h-[92vh] md:px-6"
+  aria-labelledby="hero-heading"
+>
+  <div class="absolute inset-0 z-0">
+    <Image
+      src={heroImage}
+      alt=""
+      width={1024}
+      height={728}
+      class="h-full w-full object-cover"
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div
+      class="pointer-events-none absolute inset-0 bg-cover bg-center bg-no-repeat"
+      style={`background-image: url('${scrimUrl}')`}
+      aria-hidden="true"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute inset-0 bg-cover bg-center bg-no-repeat"
+      style={`background-image: url('${overlayUrl}')`}
+      aria-hidden="true"
+    >
+    </div>
+  </div>
+
+  <div class="relative z-10 mx-auto max-w-3xl">
+    <div
+      class="text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.55),0_1px_3px_rgba(0,0,0,0.45)]"
+    >
+      <p
+        class="mb-4 text-xs font-semibold uppercase tracking-[0.2em] md:text-sm"
+      >
+        Kaş · Antalya · Türkiye
+      </p>
+      <h1 id="hero-heading" class="font-display leading-tight">
+        <span
+          class="block text-3xl font-semibold uppercase tracking-[0.12em] md:text-5xl md:tracking-[0.14em] lg:text-[3.25rem]"
+        >
+          Handcrafted Limoncello
+        </span>
+        <span
+          class="mt-2 block text-xl font-light tracking-wide md:mt-3 md:text-3xl lg:text-[2.125rem]"
+        >
+          from the heart of <span class="font-semibold">KAŞ</span>
+        </span>
+      </h1>
+      <p
+        class="mx-auto mt-6 max-w-xl text-base font-light leading-relaxed md:text-lg"
+      >
+        Organic lemons. Premium vodka. Small batch production.
+      </p>
+    </div>
+    <div
+      class="mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center"
+    >
+      <a
+        href="#order"
+        class="inline-flex items-center justify-center rounded-full bg-ink px-8 py-3.5 text-sm font-semibold text-cream shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-dark hover:shadow-lg"
+      >
+        Order Now
+      </a>
+      <a
+        href="#customize"
+        class="inline-flex items-center justify-center rounded-full border-2 border-gold bg-cream/80 px-8 py-3.5 text-sm font-semibold text-ink backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-gold-dark hover:bg-lemon-50"
+      >
+        Customize Your Bottle
+      </a>
+    </div>
+  </div>
+</section>

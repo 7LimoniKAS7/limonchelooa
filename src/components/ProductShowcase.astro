@@ -1,6 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import productImage from "../assets/product/limoncello.jpeg";
+
+const sizes = ["250ml", "500ml", "700ml"];
 ---
 
 <section
@@ -40,22 +42,65 @@ import productImage from "../assets/product/limoncello.jpeg";
           Bright citrus oils, silken body, and a clean finish—best enjoyed
           ice-cold after a coastal meal.
         </p>
-        <div class="mt-6 flex flex-wrap gap-2">
-          {
-            ["250ml", "500ml", "700ml"].map((size) => (
-              <span class="rounded-full border border-gold-light/40 bg-white px-3 py-1 text-xs font-medium text-ink">
-                {size}
-              </span>
-            ))
-          }
-        </div>
-        <a
-          href="#order"
-          class="mt-8 flex w-full items-center justify-center rounded-full bg-ink py-3.5 text-sm font-semibold text-cream transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-dark"
-        >
-          Add to Cart
-        </a>
+        <form id="product-quick-order-form" class="mt-6" action="#">
+          <fieldset>
+            <legend class="sr-only">Choose bottle size</legend>
+            <div class="flex flex-wrap gap-2">
+              {
+                sizes.map((size) => (
+                  <label class="cursor-pointer">
+                    <input
+                      class="peer sr-only"
+                      type="radio"
+                      name="quick-size"
+                      value={size}
+                      checked={size === "500ml"}
+                    />
+                    <span class="flex h-9 min-w-16 items-center justify-center rounded-lg border border-gold-light/40 bg-white px-3 text-xs font-medium text-ink transition-colors peer-checked:border-ink peer-checked:bg-ink peer-checked:text-cream peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gold">
+                      {size}
+                    </span>
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
+          <button
+            type="submit"
+            class="mt-8 flex w-full items-center justify-center rounded-lg bg-ink py-3.5 text-sm font-semibold text-cream transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-dark"
+          >
+            Order Selected Size
+          </button>
+        </form>
       </div>
     </article>
   </div>
 </section>
+
+<script is:inline>
+  (function () {
+    var form = document.getElementById("product-quick-order-form");
+    if (!form) return;
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var selected = form.querySelector('input[name="quick-size"]:checked');
+      var size = selected && selected.value ? selected.value : "500ml";
+      var messageLines = [
+        "Yeni direkt limoncello siparis istegi",
+        "Product: Kas Signature Limoncello",
+        "Bottle size: " + size,
+        "Customization: Yok, direkt almak istiyorum.",
+      ];
+
+      var waNumber = "905313186674";
+      var waUrl =
+        "https://wa.me/" +
+        waNumber +
+        "?text=" +
+        encodeURIComponent(messageLines.join("\n"));
+
+      var win = window.open(waUrl, "_blank", "noopener,noreferrer");
+      if (!win) window.location.href = waUrl;
+    });
+  })();
+</script>

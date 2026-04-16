@@ -7,7 +7,7 @@ import overlayUrl from "../assets/background2/hero-overlay.svg?url";
 
 <section
   id="hero"
-  class="relative flex min-h-[88vh] scroll-mt-20 flex-col items-center justify-center overflow-hidden px-4 py-24 text-center md:min-h-[92vh] md:px-6"
+  class="relative flex min-h-[88vh] scroll-mt-20 flex-col items-center justify-center overflow-hidden bg-[#052a3a] px-4 py-24 text-center md:min-h-[92vh] md:px-6"
   aria-labelledby="hero-heading"
 >
   <div class="absolute inset-0 z-0">
@@ -16,7 +16,7 @@ import overlayUrl from "../assets/background2/hero-overlay.svg?url";
       alt=""
       width={1024}
       height={728}
-      class="h-full w-full object-cover"
+      class="h-full w-full object-cover object-center"
       sizes="100vw"
       loading="eager"
       fetchpriority="high"
@@ -31,6 +31,11 @@ import overlayUrl from "../assets/background2/hero-overlay.svg?url";
     <div
       class="pointer-events-none absolute inset-0 bg-cover bg-center bg-no-repeat"
       style={`background-image: url('${overlayUrl}')`}
+      aria-hidden="true"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent via-[#063f5c]/45 to-[#052a3a]"
       aria-hidden="true"
     >
     </div>

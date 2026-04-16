@@ -117,9 +117,8 @@ const storyBlocks = [
     });
 
     const motion = {
-      heroDistance: 1.28,
-      scrub: 0.38,
-      parallaxStrength: 0.72,
+      scrub: 0.22,
+      parallaxStrength: 0.55,
     };
 
     const q = gsap.utils.selector(root);
@@ -128,13 +127,11 @@ const storyBlocks = [
     media.add(
       {
         motion: "(prefers-reduced-motion: no-preference)",
-        desktop: "(min-width: 760px)",
       },
       (context) => {
-      const { desktop, motion: allowMotion } = context.conditions;
+      const { motion: allowMotion } = context.conditions;
       if (!allowMotion) return;
 
-      const pin = q("[data-premium-pin]")[0];
       const storyIntro = q(".premium-story__intro")[0];
       const storyGrid = q("[data-story-grid]")[0];
 
@@ -158,11 +155,9 @@ const storyBlocks = [
         defaults: { ease: "none" },
         scrollTrigger: {
           trigger: root,
-          start: "top top",
-          end: () => `+=${Math.round(window.innerHeight * motion.heroDistance)}`,
+          start: "top 88%",
+          end: "top 8%",
           scrub: motion.scrub,
-          pin: desktop ? pin : false,
-          anticipatePin: 1,
           invalidateOnRefresh: true,
           fastScrollEnd: true,
         },
@@ -260,13 +255,13 @@ const storyBlocks = [
     --premium-cream: #fff8e8;
     --premium-white: #fffdf7;
     --premium-ink: #1f1a14;
-    --premium-scroll-distance: 1.28;
     position: relative;
     background:
-      linear-gradient(180deg, var(--premium-white) 0%, #fff3c9 42%, #fefcf8 100%);
+      linear-gradient(180deg, var(--premium-deep-sea) 0%, #fff3c9 46%, #fefcf8 100%);
     color: var(--premium-ink);
     isolation: isolate;
     overflow: clip;
+    margin-top: -1px;
   }
 
   .premium-scroll::before,
@@ -282,7 +277,7 @@ const storyBlocks = [
 
   .premium-scroll::before {
     top: 0;
-    background: linear-gradient(180deg, rgba(253, 252, 248, 0.92), rgba(5, 42, 58, 0));
+    background: linear-gradient(180deg, #052a3a 0%, rgba(5, 42, 58, 0.72) 30%, rgba(5, 42, 58, 0) 100%);
   }
 
   .premium-scroll::after {

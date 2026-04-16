@@ -1,182 +1,5 @@
 <script>
-  import gsap from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  const motion = {
-    revealY: 26,
-    revealDuration: 0.82,
-    revealStagger: 0.055,
-    scrub: 0.36,
-    ease: "power3.out",
-  };
-
-  const sectionProfiles = {
-    hero: {
-      glow: "rgba(246, 214, 66, 0.2)",
-      light: "72% 18%",
-      strength: 0.18,
-    },
-    story: {
-      glow: "rgba(201, 169, 98, 0.16)",
-      light: "50% 8%",
-      strength: 0.14,
-    },
-    highlights: {
-      glow: "rgba(246, 214, 66, 0.2)",
-      light: "20% 12%",
-      strength: 0.16,
-    },
-    ingredients: {
-      glow: "rgba(6, 63, 92, 0.1)",
-      light: "82% 18%",
-      strength: 0.12,
-    },
-    customize: {
-      glow: "rgba(201, 169, 98, 0.14)",
-      light: "50% 10%",
-      strength: 0.12,
-    },
-    showcase: {
-      glow: "rgba(246, 214, 66, 0.16)",
-      light: "66% 16%",
-      strength: 0.14,
-    },
-    experience: {
-      glow: "rgba(255, 248, 232, 0.22)",
-      light: "44% 10%",
-      strength: 0.1,
-    },
-    testimonials: {
-      glow: "rgba(201, 169, 98, 0.12)",
-      light: "78% 16%",
-      strength: 0.1,
-    },
-    urgency: {
-      glow: "rgba(246, 214, 66, 0.18)",
-      light: "62% 12%",
-      strength: 0.16,
-    },
-    order: {
-      glow: "rgba(246, 214, 66, 0.14)",
-      light: "50% 12%",
-      strength: 0.12,
-    },
-  };
-
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-  if (!reducedMotion.matches) {
-    ScrollTrigger.config({
-      ignoreMobileResize: true,
-    });
-
-    const sections = Array.from(document.querySelectorAll("main > section"));
-    const revealItems = [];
-
-    function profileFor(section) {
-      return sectionProfiles[section.id] || sectionProfiles.story;
-    }
-
-    function shouldReveal(item, candidates) {
-      if (item.closest("script, style, [data-motion-managed]")) return false;
-
-      const parent = candidates.find((candidate) => {
-        if (candidate === item) return false;
-        return (
-          candidate.matches("article, blockquote, figure, form, li") &&
-          candidate.contains(item)
-        );
-      });
-
-      return !parent;
-    }
-
-    function decorateSection(section) {
-      const profile = profileFor(section);
-      const managed = section.hasAttribute("data-motion-managed");
-
-      if (!managed) {
-        section.classList.add("motion-section");
-      }
-
-      section.style.setProperty("--motion-glow", profile.glow);
-      section.style.setProperty("--motion-light", profile.light);
-      section.style.setProperty("--motion-strength", String(profile.strength));
-
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top 62%",
-        end: "bottom 38%",
-        onToggle: (self) => section.classList.toggle("is-motion-active", self.isActive),
-      });
-
-      if (managed) return;
-
-      const candidates = Array.from(
-        section.querySelectorAll("h1, h2, h3, p, article, blockquote, figure, form, li"),
-      );
-
-      candidates
-        .filter((item) => shouldReveal(item, candidates))
-        .slice(0, 16)
-        .forEach((item) => {
-          item.setAttribute("data-motion-reveal", "");
-          revealItems.push(item);
-        });
-    }
-
-    sections.forEach(decorateSection);
-
-    document
-      .querySelectorAll("main article, main blockquote, main form")
-      .forEach((item) => item.classList.add("motion-card"));
-
-    document
-      .querySelectorAll("main a[href^='#'], main button[type='submit']")
-      .forEach((item) => item.classList.add("motion-cta"));
-
-    document
-      .querySelectorAll("main img")
-      .forEach((item) => item.classList.add("motion-image"));
-
-    gsap.set(revealItems, {
-      autoAlpha: 0,
-      y: motion.revealY,
-      force3D: true,
-    });
-
-    ScrollTrigger.batch(revealItems, {
-      start: "top 84%",
-      once: true,
-      interval: 0.08,
-      batchMax: 8,
-      onEnter: (batch) => {
-        batch.forEach((item) => {
-          item.style.willChange = "transform, opacity";
-        });
-
-        gsap.to(batch, {
-          autoAlpha: 1,
-          y: 0,
-          duration: motion.revealDuration,
-          stagger: motion.revealStagger,
-          ease: motion.ease,
-          overwrite: "auto",
-          onComplete: () => {
-            batch.forEach((item) => {
-              item.style.willChange = "auto";
-            });
-          },
-        });
-      },
-    });
-
-    document.documentElement.classList.add("motion-ready");
-  } else {
-    document.documentElement.classList.add("motion-reduced");
-  }
+  import "../scripts/site-motion";
 </script>
 
 <style is:global>
@@ -208,6 +31,21 @@
       transform var(--motion-duration) var(--motion-ease);
   }
 
+  .motion-section::after {
+    content: "";
+    position: absolute;
+    inset: -18% -10%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: calc(var(--motion-sweep) * var(--motion-progress));
+    transform: translate3d(calc((var(--motion-progress) - 0.5) * 5%), 0, 0);
+    background:
+      linear-gradient(108deg, transparent 10%, rgba(255, 248, 232, 0.16) 44%, transparent 62%),
+      linear-gradient(180deg, transparent, rgba(255, 248, 232, 0.08), transparent);
+    transition: opacity var(--motion-duration) var(--motion-ease);
+    will-change: transform, opacity;
+  }
+
   .motion-section.is-motion-active::before {
     opacity: var(--motion-strength);
     transform: translate3d(0, 0, 0) scale(1);
@@ -235,6 +73,8 @@
   }
 
   .motion-card {
+    position: relative;
+    overflow: hidden;
     transition:
       transform var(--motion-hover-duration) var(--motion-ease),
       box-shadow var(--motion-hover-duration) var(--motion-ease),
@@ -242,13 +82,40 @@
       background-color var(--motion-hover-duration) var(--motion-ease);
   }
 
+  .motion-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 248, 232, 0.26), transparent 42%),
+      linear-gradient(180deg, transparent, rgba(201, 169, 98, 0.08));
+    transition: opacity var(--motion-hover-duration) var(--motion-ease);
+  }
+
   .motion-cta {
+    position: relative;
+    overflow: hidden;
     transition:
       transform var(--motion-hover-duration) var(--motion-ease),
       box-shadow var(--motion-hover-duration) var(--motion-ease),
       background-color var(--motion-hover-duration) var(--motion-ease),
       border-color var(--motion-hover-duration) var(--motion-ease),
       color var(--motion-hover-duration) var(--motion-ease);
+  }
+
+  .motion-cta::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(-24%, 0, 0);
+    background: linear-gradient(105deg, transparent 12%, rgba(255, 248, 232, 0.24) 42%, transparent 64%);
+    transition:
+      opacity var(--motion-hover-duration) var(--motion-ease),
+      transform var(--motion-hover-duration) var(--motion-ease);
   }
 
   .motion-image {
@@ -260,8 +127,17 @@
       transform: translate3d(0, -3px, 0);
     }
 
+    .motion-card:hover::after {
+      opacity: 1;
+    }
+
     .motion-cta:hover {
       transform: translate3d(0, -2px, 0);
+    }
+
+    .motion-cta:hover::after {
+      opacity: 1;
+      transform: translate3d(24%, 0, 0);
     }
 
     .motion-card:hover .motion-image,
@@ -270,8 +146,69 @@
     }
   }
 
+  #story.motion-section {
+    background:
+      linear-gradient(135deg, rgba(6, 63, 92, 0.08), transparent 28%),
+      linear-gradient(180deg, #fef9c3 0%, #fff8e8 56%, #fefce8 100%);
+  }
+
+  #highlights.motion-section {
+    background:
+      linear-gradient(120deg, rgba(255, 248, 232, 0.5), transparent 34%),
+      linear-gradient(240deg, rgba(6, 63, 92, 0.08), transparent 42%),
+      linear-gradient(180deg, rgba(254, 240, 138, 0.92), #fff8e8 52%, rgba(254, 240, 138, 0.78));
+  }
+
+  #ingredients.motion-section {
+    background:
+      linear-gradient(128deg, rgba(6, 63, 92, 0.08), transparent 30%),
+      linear-gradient(180deg, #fffdf7 0%, #fef9c3 48%, #fffdf7 100%);
+  }
+
+  #customize.motion-section {
+    background:
+      linear-gradient(115deg, rgba(201, 169, 98, 0.12), transparent 36%),
+      linear-gradient(180deg, #fffdf7 0%, #fff8e8 100%);
+  }
+
+  #showcase.motion-section {
+    background:
+      linear-gradient(145deg, rgba(6, 63, 92, 0.07), transparent 32%),
+      linear-gradient(32deg, rgba(246, 214, 66, 0.18), transparent 44%),
+      #fffdf7;
+  }
+
+  #experience.motion-section {
+    background:
+      linear-gradient(180deg, #fff8e8 0%, #fdfcf8 58%, #fff8e8 100%),
+      linear-gradient(120deg, rgba(201, 169, 98, 0.12), transparent 40%);
+  }
+
+  #testimonials.motion-section {
+    background:
+      linear-gradient(135deg, rgba(6, 63, 92, 0.06), transparent 30%),
+      linear-gradient(180deg, #fffdf7 0%, #fff8e8 100%);
+  }
+
+  #urgency.motion-section {
+    background:
+      linear-gradient(145deg, rgba(246, 214, 66, 0.14), transparent 38%),
+      linear-gradient(180deg, #052a3a 0%, #1f1a14 100%);
+  }
+
+  #order.motion-section {
+    background:
+      linear-gradient(130deg, rgba(246, 214, 66, 0.14), transparent 34%),
+      linear-gradient(220deg, rgba(6, 63, 92, 0.06), transparent 38%),
+      linear-gradient(180deg, #fdfcf8 0%, #fff3c9 100%);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .motion-section::before {
+      display: none;
+    }
+
+    .motion-section::after {
       display: none;
     }
 

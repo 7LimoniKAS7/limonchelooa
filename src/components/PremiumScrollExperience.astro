@@ -79,6 +79,8 @@ const storyBlocks = [
     </div>
   </div>
 
+  <div class="premium-scroll__blend" aria-hidden="true"></div>
+
   <div class="premium-story">
     <div class="premium-story__intro">
       <p data-story-kicker>Craft Notes</p>
@@ -294,6 +296,32 @@ const storyBlocks = [
     background: var(--premium-deep-sea);
     contain: paint style;
     transform: translateZ(0);
+  }
+
+  .premium-scroll__blend {
+    position: relative;
+    z-index: 2;
+    height: clamp(8rem, 14vw, 12rem);
+    margin-top: -1px;
+    background:
+      radial-gradient(circle at 74% 10%, rgba(246, 214, 66, 0.24), rgba(246, 214, 66, 0) 34%),
+      linear-gradient(
+        180deg,
+        var(--premium-deep-sea) 0%,
+        #063f5c 28%,
+        rgba(255, 243, 201, 0.82) 74%,
+        #fefcf8 100%
+      );
+    pointer-events: none;
+  }
+
+  .premium-scroll__blend::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(255, 248, 232, 0.08), rgba(255, 248, 232, 0.34), rgba(6, 63, 92, 0.1)),
+      linear-gradient(180deg, rgba(255, 248, 232, 0), rgba(255, 248, 232, 0.42));
   }
 
   .premium-scroll__scene,
@@ -520,9 +548,11 @@ const storyBlocks = [
   }
 
   .premium-story {
+    position: relative;
+    z-index: 3;
     width: min(72rem, calc(100% - 2rem));
-    margin: 0 auto;
-    padding: 8rem 0 9rem;
+    margin: -2.5rem auto 0;
+    padding: 6.5rem 0 9rem;
   }
 
   .premium-story__intro {
@@ -646,6 +676,7 @@ const storyBlocks = [
 
     .premium-story {
       width: min(100% - 1.25rem, 72rem);
+      margin-top: -2rem;
       padding: 5rem 0 6rem;
     }
 

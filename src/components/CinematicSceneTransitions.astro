@@ -406,7 +406,12 @@
     will-change: transform, opacity;
   }
 
-  .cinematic-scene > * {
+  .cinematic-scene > [data-scene-background] {
+    position: absolute;
+    z-index: 0;
+  }
+
+  .cinematic-scene > :not([data-scene-background]) {
     position: relative;
     z-index: 2;
   }

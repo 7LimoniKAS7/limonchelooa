@@ -10,13 +10,13 @@ import overlayUrl from "../assets/background2/hero-overlay.svg?url";
   class="relative flex min-h-[62svh] scroll-mt-20 flex-col items-center justify-center overflow-hidden bg-[#052a3a] px-4 py-16 text-center md:min-h-[66svh] md:px-6 md:py-20 lg:min-h-[68svh]"
   aria-labelledby="hero-heading"
 >
-  <div class="absolute inset-0 z-0">
+  <div class="absolute inset-0 z-0" data-scene-background aria-hidden="true">
     <Image
       src={heroImage}
       alt=""
       width={1024}
       height={728}
-      class="h-full w-full object-cover object-center"
+      class="absolute inset-0 h-full w-full max-w-none object-cover object-center"
       sizes="100vw"
       loading="eager"
       fetchpriority="high"

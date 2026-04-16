@@ -133,9 +133,32 @@
         alert("Please enter an email or phone number so we can confirm your order.");
         return;
       }
-      alert(
-        "Thank you. Your request has been noted — we will contact you shortly to confirm your order."
-      );
+      var name = document.getElementById("order-name");
+      var address = document.getElementById("order-address");
+      var size = document.getElementById("order-size");
+      var notes = document.getElementById("order-notes");
+
+      var messageLines = [
+        "Yeni limoncello siparis istegi",
+        "Name: " + (name && name.value ? name.value.trim() : "-"),
+        "Email: " + (email && email.value ? email.value.trim() : "-"),
+        "Phone: " + (phone && phone.value ? phone.value.trim() : "-"),
+        "Address: " + (address && address.value ? address.value.trim() : "-"),
+        "Bottle size: " + (size && size.value ? size.value : "-"),
+        "Customization: " + (notes && notes.value ? notes.value.trim() : "-"),
+      ];
+
+      // Turkey (TR) number without '+' for wa.me.
+      var waNumber = "905313186674";
+      var waUrl =
+        "https://wa.me/" +
+        waNumber +
+        "?text=" +
+        encodeURIComponent(messageLines.join("\n"));
+
+      var win = window.open(waUrl, "_blank", "noopener,noreferrer");
+      if (!win) window.location.href = waUrl;
+
       form.reset();
     });
   })();

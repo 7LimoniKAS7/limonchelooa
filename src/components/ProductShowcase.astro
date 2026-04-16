@@ -1,8 +1,6 @@
 ---
 import { Image } from "astro:assets";
-
-const productSrc =
-  "https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=800&q=80";
+import productImage from "../assets/product/limoncello.jpeg";
 ---
 
 <section
@@ -27,7 +25,7 @@ const productSrc =
     >
       <div class="aspect-[4/5] overflow-hidden bg-lemon-100/50">
         <Image
-          src={productSrc}
+          src={productImage}
           alt="Premium limoncello bottle beside fresh lemons"
           width={800}
           height={1000}

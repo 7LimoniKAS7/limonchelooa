@@ -302,6 +302,14 @@ const storyBlocks = [
     inset: 0;
   }
 
+  .premium-scroll__scene {
+    left: 50%;
+    width: 120vw;
+    max-width: none;
+    transform: translate3d(-50%, 0, 0);
+    overflow: hidden;
+  }
+
   .premium-scroll__scene::after {
     content: "";
     z-index: 7;
@@ -313,9 +321,10 @@ const storyBlocks = [
 
   .premium-scroll__coast {
     position: absolute;
-    inset: -5%;
+    inset: -5% 0;
     z-index: 1;
-    width: 110%;
+    width: 100%;
+    max-width: none;
     height: 110%;
     object-fit: cover;
     transform-origin: center center;

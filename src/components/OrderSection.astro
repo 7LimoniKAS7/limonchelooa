@@ -157,7 +157,17 @@
         encodeURIComponent(messageLines.join("\n"));
 
       var win = window.open(waUrl, "_blank", "noopener,noreferrer");
-      if (!win) window.location.href = waUrl;
+      if (win) {
+        win.opener = null;
+      } else {
+        var link = document.createElement("a");
+        link.href = waUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
 
       form.reset();
     });

@@ -1,3 +1,13 @@
+---
+import type { Messages } from "../i18n/messages";
+
+interface Props {
+  t: Messages;
+}
+
+const { t } = Astro.props;
+---
+
 <section
   id="customize"
   class="scroll-mt-24 border-y border-gold-light/20 bg-gradient-to-b from-lemon-50/40 to-cream px-4 py-20 md:px-6 md:py-28"
@@ -8,18 +18,16 @@
       id="customize-heading"
       class="font-display text-2xl font-semibold tracking-tight text-ink md:text-4xl"
     >
-      Make It Yours
+      {t.customize.title}
     </h2>
     <p class="mx-auto mt-6 max-w-2xl text-base font-light leading-relaxed text-stone-soft md:text-lg">
-      Adjust sweetness to your palate, dial zest forward or soft, or commission a
-      custom batch for gatherings and gifts. We blend to order when volumes
-      allow—so your limoncello feels personal, not mass-produced.
+      {t.customize.body}
     </p>
     <a
       href="#order"
       class="mt-10 inline-flex items-center justify-center rounded-full bg-gold px-10 py-3.5 text-sm font-semibold text-white shadow-soft transition-colors duration-300 hover:bg-gold-dark hover:shadow-card"
     >
-      Customize Your Bottle
+      {t.customize.cta}
     </a>
   </div>
 </section>

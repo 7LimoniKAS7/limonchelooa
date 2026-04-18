@@ -2,24 +2,14 @@
 import { Image } from "astro:assets";
 import coastImage from "../assets/background2/hero.png";
 import productImage from "../assets/product/limoncello.jpeg";
+import type { Messages } from "../i18n/messages";
 
-const storyBlocks = [
-  {
-    eyebrow: "01 / Lemons",
-    title: "Kaş citrus, selected for aroma",
-    text: "Bright peels are chosen for oil, color, and fragrance before a slow infusion begins.",
-  },
-  {
-    eyebrow: "02 / Craft",
-    title: "Small batches, finished by hand",
-    text: "Each bottle is balanced in measured runs, giving the liqueur a clean body and a precise finish.",
-  },
-  {
-    eyebrow: "03 / Serve",
-    title: "Ice-cold, coastal, refined",
-    text: "Serve after dinner or over a single cube when the evening turns warm and gold.",
-  },
-];
+interface Props {
+  t: Messages;
+}
+
+const { t } = Astro.props;
+const storyBlocks = t.premiumCraft.storyBlocks;
 ---
 
 <section
@@ -48,44 +38,39 @@ const storyBlocks = [
     <div class="premium-scroll__content">
       <div class="premium-scroll__copy">
         <p class="premium-scroll__eyebrow" data-intro data-intro-soft>
-          Kaş / Antalya / Handmade Limoncello
+          {t.premiumCraft.eyebrow}
         </p>
         <h2 id="premium-craft-heading" data-intro>
-          A coastal ritual, bottled in sunlight.
+          {t.premiumCraft.title}
         </h2>
         <p class="premium-scroll__lead" data-intro data-intro-soft>
-          Mediterranean lemons, cool glass, and slow craft come together in a
-          limoncello made for long summer tables.
+          {t.premiumCraft.lead}
         </p>
-        <ul class="premium-scroll__highlights" aria-label="Product highlights">
-          <li data-highlight>Handmade</li>
-          <li data-highlight>Premium ingredients</li>
-          <li data-highlight>Kaş citrus</li>
+        <ul class="premium-scroll__highlights" aria-label={t.premiumCraft.highlightsLabel}>
+          {t.premiumCraft.highlights.map((item) => <li data-highlight>{item}</li>)}
         </ul>
       </div>
 
       <figure class="premium-scroll__product" data-product>
         <Image
           src={productImage}
-          alt="Limoncello bottle on a coastal terrace in Kaş"
+          alt={t.premiumCraft.productAlt}
           width={900}
           height={1125}
           sizes="(min-width: 900px) 34rem, 88vw"
           class="premium-scroll__product-image"
         />
-        <figcaption>Signature limoncello, hand-finished in Antalya.</figcaption>
+        <figcaption>{t.premiumCraft.productCaption}</figcaption>
       </figure>
     </div>
   </div>
 
   <div class="premium-story">
     <div class="premium-story__intro">
-      <p data-story-kicker>Craft Notes</p>
-      <h3 data-story-heading>Designed to unfold slowly.</h3>
+      <p data-story-kicker>{t.premiumCraft.notesKicker}</p>
+      <h3 data-story-heading>{t.premiumCraft.notesTitle}</h3>
       <p data-story-text>
-        The section continues with a measured story rhythm: no loud tricks, just
-        warm light, deep sea tones, and refined motion that reveals the bottle’s
-        character piece by piece.
+        {t.premiumCraft.notesText}
       </p>
     </div>
 

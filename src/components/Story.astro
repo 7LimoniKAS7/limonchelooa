@@ -1,3 +1,13 @@
+---
+import type { Messages } from "../i18n/messages";
+
+interface Props {
+  t: Messages;
+}
+
+const { t } = Astro.props;
+---
+
 <section
   id="story"
   class="scroll-mt-24 border-t border-lemon-300/40 bg-gradient-to-b from-lemon-100 to-lemon-50 px-4 py-20 md:px-6 md:py-28"
@@ -8,7 +18,7 @@
       id="story-heading"
       class="font-display text-2xl font-semibold tracking-tight text-ink md:text-4xl"
     >
-      A Mediterranean Legacy Reimagined
+      {t.story.title}
     </h2>
     <div
       class="mx-auto mt-6 h-px w-16 bg-gradient-to-r from-transparent via-lemon-400 to-transparent"
@@ -18,11 +28,7 @@
     <p
       class="mt-8 text-base font-light leading-relaxed text-ink/80 md:text-lg md:leading-loose"
     >
-      Limoncello was born on the cliffs of Sorrento—a ritual of sun, zest, and
-      slow afternoons. We honor that Italian lineage while rooting every bottle
-      in Kaş: the same luminous citrus spirit, distilled along the turquoise
-      coast of Antalya. Here, handpicked local lemons meet meticulous craft for
-      a liqueur that feels both timeless and unmistakably ours.
+      {t.story.body}
     </p>
   </div>
 </section>

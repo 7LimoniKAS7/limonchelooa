@@ -1,0 +1,50 @@
+---
+import Customization from "../../components/Customization.astro";
+import Experience from "../../components/Experience.astro";
+import Footer from "../../components/Footer.astro";
+import Hero from "../../components/Hero.astro";
+import Ingredients from "../../components/Ingredients.astro";
+import Layout from "../../layouts/Layout.astro";
+import Navigation from "../../components/Navigation.astro";
+import OrderSection from "../../components/OrderSection.astro";
+import PremiumScrollExperience from "../../components/PremiumScrollExperience.astro";
+import ProductHighlights from "../../components/ProductHighlights.astro";
+import ProductShowcase from "../../components/ProductShowcase.astro";
+import SiteMotion from "../../components/SiteMotion.astro";
+import SocialProof from "../../components/SocialProof.astro";
+import Story from "../../components/Story.astro";
+import Urgency from "../../components/Urgency.astro";
+import { locales, type Locale } from "../../i18n/config";
+import { messages } from "../../i18n/messages";
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const locale = Astro.params.locale as Locale;
+const t = messages[locale];
+---
+
+<Layout
+  locale={locale}
+  title={t.metadata.title}
+  description={t.metadata.description}
+  ogLocale={t.metadata.ogLocale}
+>
+  <Navigation locale={locale} t={t} />
+  <main>
+    <Hero t={t} />
+    <PremiumScrollExperience t={t} />
+    <Story t={t} />
+    <ProductHighlights t={t} />
+    <Ingredients t={t} />
+    <Customization t={t} />
+    <ProductShowcase t={t} />
+    <Experience t={t} />
+    <SocialProof t={t} />
+    <Urgency t={t} />
+    <OrderSection t={t} />
+  </main>
+  <SiteMotion />
+  <Footer t={t} />
+</Layout>

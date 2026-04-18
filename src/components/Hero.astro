@@ -3,6 +3,13 @@ import { Image } from "astro:assets";
 import heroImage from "../assets/background2/hero.png";
 import scrimUrl from "../assets/background2/hero-scrim.svg?url";
 import overlayUrl from "../assets/background2/hero-overlay.svg?url";
+import type { Messages } from "../i18n/messages";
+
+interface Props {
+  t: Messages;
+}
+
+const { t } = Astro.props;
 ---
 
 <section
@@ -52,24 +59,24 @@ import overlayUrl from "../assets/background2/hero-overlay.svg?url";
       <p
         class="mb-4 text-xs font-semibold uppercase tracking-[0.2em] md:text-sm"
       >
-        Kaş · Antalya · Türkiye
+        {t.hero.kicker}
       </p>
       <h1 id="hero-heading" class="font-display leading-tight">
         <span
           class="block text-3xl font-semibold uppercase tracking-[0.12em] md:text-5xl md:tracking-[0.14em] lg:text-[3.25rem]"
         >
-          Handcrafted Limoncello
+          {t.hero.title}
         </span>
         <span
           class="mt-2 block text-xl font-light tracking-wide md:mt-3 md:text-3xl lg:text-[2.125rem]"
         >
-          from the heart of <span class="font-semibold">KAŞ</span>
+          {t.hero.subtitlePrefix} <span class="font-semibold">{t.hero.subtitleHighlight}</span>
         </span>
       </h1>
       <p
         class="mx-auto mt-6 max-w-xl text-base font-light leading-relaxed md:text-lg"
       >
-        Organic lemons. Premium vodka. Small batch production.
+        {t.hero.lead}
       </p>
     </div>
     <div
@@ -79,13 +86,13 @@ import overlayUrl from "../assets/background2/hero-overlay.svg?url";
         href="#order"
         class="inline-flex items-center justify-center rounded-full bg-ink px-8 py-3.5 text-sm font-semibold text-cream shadow-card transition-colors duration-300 hover:bg-gold-dark hover:shadow-lg"
       >
-        Order Now
+        {t.hero.orderCta}
       </a>
       <a
         href="#customize"
         class="inline-flex items-center justify-center rounded-full border-2 border-gold bg-cream/80 px-8 py-3.5 text-sm font-semibold text-ink backdrop-blur-sm transition-colors duration-300 hover:border-gold-dark hover:bg-lemon-50"
       >
-        Customize Your Bottle
+        {t.hero.customizeCta}
       </a>
     </div>
   </div>

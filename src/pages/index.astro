@@ -1,36 +1,53 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Navigation from "../components/Navigation.astro";
-import Hero from "../components/Hero.astro";
-import PremiumScrollExperience from "../components/PremiumScrollExperience.astro";
-import Story from "../components/Story.astro";
-import ProductHighlights from "../components/ProductHighlights.astro";
-import Ingredients from "../components/Ingredients.astro";
-import Customization from "../components/Customization.astro";
-import ProductShowcase from "../components/ProductShowcase.astro";
-import Experience from "../components/Experience.astro";
-import SocialProof from "../components/SocialProof.astro";
-import Urgency from "../components/Urgency.astro";
-import OrderSection from "../components/OrderSection.astro";
-import SiteMotion from "../components/SiteMotion.astro";
-import Footer from "../components/Footer.astro";
+import { defaultLocale, getBasePath, getLocalizedPath, locales } from "../i18n/config";
+import { messages } from "../i18n/messages";
+
+const fallbackUrl = getLocalizedPath(defaultLocale);
+const basePath = getBasePath();
+const fallbackTitle = messages[defaultLocale].metadata.title;
+const fallbackDescription = messages[defaultLocale].metadata.description;
 ---
 
-<Layout>
-  <Navigation />
-  <main>
-    <Hero />
-    <PremiumScrollExperience />
-    <Story />
-    <ProductHighlights />
-    <Ingredients />
-    <Customization />
-    <ProductShowcase />
-    <Experience />
-    <SocialProof />
-    <Urgency />
-    <OrderSection />
-  </main>
-  <SiteMotion />
-  <Footer />
-</Layout>
+<!doctype html>
+<html lang={defaultLocale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content={fallbackDescription} />
+    <meta http-equiv="refresh" content={`0;url=${fallbackUrl}`} />
+    <title>{fallbackTitle}</title>
+  </head>
+  <body>
+    <p>
+      <a href={fallbackUrl}>Kaş Limoncello</a>
+    </p>
+    <script
+      is:inline
+      define:vars={{
+        basePath,
+        defaultLocale,
+        supportedLocales: JSON.stringify(locales),
+      }}
+    >
+      try {
+        var supported = JSON.parse(supportedLocales);
+        var stored = localStorage.getItem("limoncello-locale");
+        var browserLocales = navigator.languages && navigator.languages.length
+          ? navigator.languages
+          : [navigator.language || ""];
+        var browserLocale = browserLocales
+          .map(function (item) {
+            return String(item).toLowerCase().split("-")[0];
+          })
+          .find(function (item) {
+            return supported.indexOf(item) !== -1;
+          });
+        var target = supported.indexOf(stored) !== -1 ? stored : browserLocale || defaultLocale;
+        window.location.replace(basePath + target + "/");
+      } catch (error) {
+        window.location.replace(basePath + defaultLocale + "/");
+      }
+    </script>
+  </body>
+</html>

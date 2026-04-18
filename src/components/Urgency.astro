@@ -1,3 +1,13 @@
+---
+import type { Messages } from "../i18n/messages";
+
+interface Props {
+  t: Messages;
+}
+
+const { t } = Astro.props;
+---
+
 <section
   id="urgency"
   class="scroll-mt-24 bg-gradient-to-br from-ink via-stone-800 to-ink px-4 py-16 text-cream md:px-6 md:py-20"
@@ -8,18 +18,16 @@
       id="urgency-heading"
       class="font-display text-2xl font-semibold tracking-tight md:text-3xl"
     >
-      Limited Production
+      {t.urgency.title}
     </h2>
     <p class="mx-auto mt-4 max-w-xl text-sm font-light leading-relaxed text-white/80 md:text-base">
-      Each run is intentionally small. When a batch sells through, the next
-      maceration waits on the harvest—secure your bottles while this release is
-      available.
+      {t.urgency.body}
     </p>
     <a
       href="#order"
       class="mt-8 inline-flex items-center justify-center rounded-full bg-lemon-200 px-10 py-3.5 text-sm font-semibold text-ink transition-colors duration-300 hover:bg-lemon-300 hover:shadow-lg"
     >
-      Order Before It&apos;s Gone
+      {t.urgency.cta}
     </a>
   </div>
 </section>

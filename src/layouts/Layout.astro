@@ -1,29 +1,49 @@
 ---
 import "../styles/global.css";
+import {
+  defaultLocale,
+  getLocalizedPath,
+  locales,
+  type Locale,
+} from "../i18n/config";
 
 interface Props {
+  locale?: Locale;
   title?: string;
   description?: string;
+  ogLocale?: string;
 }
 
 const {
-  title = "Kaş Limoncello — Handcrafted in Antalya",
+  locale = defaultLocale,
+  title = "Kaş Limoncello - Handcrafted in Antalya",
   description =
-    "Premium small-batch limoncello from Kaş, Antalya. Organic lemons, artisanal craft, Mediterranean soul.",
+    "Premium small-batch limoncello from Kaş, Antalya. Local lemons, artisanal craft, Mediterranean soul.",
+  ogLocale,
 } = Astro.props;
 
 const basePath = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 const faviconHref = `${basePath}favicon.svg`;
+const site = Astro.site ?? new URL("https://taylankuscu6674-art.github.io");
+const absoluteUrl = (path: string) => new URL(path, site).toString();
+const canonicalUrl = absoluteUrl(getLocalizedPath(locale));
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {
+      locales.map((item) => (
+        <link rel="alternate" hreflang={item} href={absoluteUrl(getLocalizedPath(item))} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={absoluteUrl(getLocalizedPath(defaultLocale))} />
     <link rel="icon" type="image/svg+xml" href={faviconHref} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,6 +51,14 @@ const faviconHref = `${basePath}favicon.svg`;
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <meta property="og:type" content="website" />
+    {ogLocale && <meta property="og:locale" content={ogLocale} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <title>{title}</title>
   </head>
   <body class="font-sans font-normal text-ink">

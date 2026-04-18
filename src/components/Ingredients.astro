@@ -1,10 +1,11 @@
 ---
-const list = [
-  "Handpicked lemons from Kaş, Antalya",
-  "Premium vodka — never diluted with low-quality alcohol (brand undisclosed)",
-  "Natural sugar",
-  "No preservatives",
-];
+import type { Messages } from "../i18n/messages";
+
+interface Props {
+  t: Messages;
+}
+
+const { t } = Astro.props;
 ---
 
 <section
@@ -18,16 +19,15 @@ const list = [
         id="ingredients-heading"
         class="font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl"
       >
-        Pure Ingredients Only
+        {t.ingredients.title}
       </h2>
       <p class="mt-4 max-w-md text-sm font-light leading-relaxed text-ink/75 md:text-base">
-        Transparency without compromise—every element in the bottle earns its
-        place.
+        {t.ingredients.lead}
       </p>
     </div>
     <ul class="space-y-4" role="list">
       {
-        list.map((item, i) => (
+        t.ingredients.list.map((item, i) => (
           <li
             class="flex items-start gap-4 rounded-2xl border border-lemon-300/45 bg-white/85 px-5 py-4 shadow-sm backdrop-blur-sm transition-colors duration-300 hover:border-gold/40 hover:bg-white"
           >

@@ -1,7 +1,13 @@
 ---
 import { Image } from "astro:assets";
 import productImage from "../assets/product/limoncello.jpeg";
+import type { Messages } from "../i18n/messages";
 
+interface Props {
+  t: Messages;
+}
+
+const { t } = Astro.props;
 const sizes = ["250ml", "500ml", "700ml"];
 ---
 
@@ -15,11 +21,10 @@ const sizes = ["250ml", "500ml", "700ml"];
       id="showcase-heading"
       class="text-center font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl"
     >
-      Product showcase
+      {t.showcase.title}
     </h2>
     <p class="mx-auto mt-3 max-w-lg text-center text-sm text-stone-soft">
-      Frosted glass, hand-labeled. Choose the size that fits your table—or your
-      evening.
+      {t.showcase.lead}
     </p>
 
     <article
@@ -28,7 +33,7 @@ const sizes = ["250ml", "500ml", "700ml"];
       <div class="aspect-[4/5] overflow-hidden bg-lemon-100/50">
         <Image
           src={productImage}
-          alt="Premium limoncello bottle beside fresh lemons"
+          alt={t.showcase.productAlt}
           width={800}
           height={1000}
           class="h-full w-full object-cover"
@@ -37,14 +42,22 @@ const sizes = ["250ml", "500ml", "700ml"];
         />
       </div>
       <div class="p-6 md:p-8">
-        <h3 class="text-lg font-semibold text-ink">Kaş Signature Limoncello</h3>
+        <h3 class="text-lg font-semibold text-ink">{t.showcase.productName}</h3>
         <p class="mt-2 text-sm font-light leading-relaxed text-stone-soft">
-          Bright citrus oils, silken body, and a clean finish—best enjoyed
-          ice-cold after a coastal meal.
+          {t.showcase.productDescription}
         </p>
-        <form id="product-quick-order-form" class="mt-6" action="#">
+        <form
+          id="product-quick-order-form"
+          class="mt-6"
+          action="#"
+          data-message-title={t.showcase.quickOrderMessage.title}
+          data-message-product-label={t.showcase.quickOrderMessage.product}
+          data-message-size-label={t.showcase.quickOrderMessage.size}
+          data-message-customization={t.showcase.quickOrderMessage.customization}
+          data-product-name={t.showcase.productName}
+        >
           <fieldset>
-            <legend class="sr-only">Choose bottle size</legend>
+            <legend class="sr-only">{t.showcase.sizeLegend}</legend>
             <div class="flex flex-wrap gap-2">
               {
                 sizes.map((size) => (
@@ -68,7 +81,7 @@ const sizes = ["250ml", "500ml", "700ml"];
             type="submit"
             class="mt-8 flex w-full items-center justify-center rounded-lg bg-ink py-3.5 text-sm font-semibold text-cream transition-colors duration-300 hover:bg-gold-dark"
           >
-            Order Selected Size
+            {t.showcase.button}
           </button>
         </form>
       </div>
@@ -86,10 +99,10 @@ const sizes = ["250ml", "500ml", "700ml"];
       var selected = form.querySelector('input[name="quick-size"]:checked');
       var size = selected && selected.value ? selected.value : "500ml";
       var messageLines = [
-        "Yeni direkt limoncello siparis istegi",
-        "Product: Kas Signature Limoncello",
-        "Bottle size: " + size,
-        "Customization: Yok, direkt almak istiyorum.",
+        form.dataset.messageTitle || "New direct limoncello order request",
+        (form.dataset.messageProductLabel || "Product") + ": " + (form.dataset.productName || "Kas Signature Limoncello"),
+        (form.dataset.messageSizeLabel || "Bottle size") + ": " + size,
+        form.dataset.messageCustomization || "Customization: None",
       ];
 
       var waNumber = "905313186674";

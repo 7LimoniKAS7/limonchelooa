@@ -1,3 +1,13 @@
+---
+import type { Messages } from "../i18n/messages";
+
+interface Props {
+  t: Messages;
+}
+
+const { t } = Astro.props;
+---
+
 <section
   id="order"
   class="scroll-mt-24 bg-cream px-4 py-20 md:px-6 md:py-28"
@@ -8,11 +18,10 @@
       id="order-heading"
       class="text-center font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl"
     >
-      Place your order
+      {t.order.title}
     </h2>
     <p class="mx-auto mt-3 max-w-md text-center text-sm text-stone-soft">
-      Share your details and preferences—we will confirm availability and
-      shipping by email or phone.
+      {t.order.lead}
     </p>
 
     <form
@@ -20,10 +29,18 @@
       class="mt-10 space-y-5 rounded-3xl border border-gold-light/30 bg-white p-6 shadow-soft md:p-8"
       method="post"
       action="#"
+      data-alert={t.order.alert}
+      data-message-title={t.order.whatsapp.title}
+      data-label-name={t.order.whatsapp.name}
+      data-label-email={t.order.whatsapp.email}
+      data-label-phone={t.order.whatsapp.phone}
+      data-label-address={t.order.whatsapp.address}
+      data-label-size={t.order.whatsapp.size}
+      data-label-customization={t.order.whatsapp.customization}
     >
       <div>
         <label for="order-name" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-stone-soft"
-          >Name</label
+          >{t.order.labels.name}</label
         >
         <input
           id="order-name"
@@ -32,13 +49,13 @@
           required
           autocomplete="name"
           class="w-full rounded-xl border border-gold-light/40 bg-cream/30 px-4 py-3 text-sm text-ink transition-colors placeholder:text-stone-soft/60 focus:border-gold focus:bg-white focus:outline-none"
-          placeholder="Your full name"
+          placeholder={t.order.placeholders.name}
         />
       </div>
       <div class="grid gap-5 sm:grid-cols-2">
         <div>
           <label for="order-email" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-stone-soft"
-            >Email</label
+            >{t.order.labels.email}</label
           >
           <input
             id="order-email"
@@ -46,12 +63,12 @@
             type="email"
             autocomplete="email"
             class="w-full rounded-xl border border-gold-light/40 bg-cream/30 px-4 py-3 text-sm text-ink transition-colors placeholder:text-stone-soft/60 focus:border-gold focus:bg-white focus:outline-none"
-            placeholder="you@example.com"
+            placeholder={t.order.placeholders.email}
           />
         </div>
         <div>
           <label for="order-phone" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-stone-soft"
-            >Phone</label
+            >{t.order.labels.phone}</label
           >
           <input
             id="order-phone"
@@ -59,16 +76,16 @@
             type="tel"
             autocomplete="tel"
             class="w-full rounded-xl border border-gold-light/40 bg-cream/30 px-4 py-3 text-sm text-ink transition-colors placeholder:text-stone-soft/60 focus:border-gold focus:bg-white focus:outline-none"
-            placeholder="+90 …"
+            placeholder={t.order.placeholders.phone}
           />
         </div>
       </div>
       <p class="text-xs text-stone-soft">
-        Provide at least one: email or phone, so we can reach you.
+        {t.order.contactRequirement}
       </p>
       <div>
         <label for="order-address" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-stone-soft"
-          >Address</label
+          >{t.order.labels.address}</label
         >
         <textarea
           id="order-address"
@@ -76,12 +93,12 @@
           required
           rows={3}
           class="w-full resize-y rounded-xl border border-gold-light/40 bg-cream/30 px-4 py-3 text-sm text-ink transition-colors placeholder:text-stone-soft/60 focus:border-gold focus:bg-white focus:outline-none"
-          placeholder="Street, district, city, postal code"
+          placeholder={t.order.placeholders.address}
         ></textarea>
       </div>
       <div>
         <label for="order-size" class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-stone-soft"
-          >Bottle size</label
+          >{t.order.labels.size}</label
         >
         <select
           id="order-size"
@@ -89,7 +106,7 @@
           required
           class="w-full rounded-xl border border-gold-light/40 bg-cream/30 px-4 py-3 text-sm text-ink transition-colors focus:border-gold focus:bg-white focus:outline-none"
         >
-          <option value="">Select size</option>
+          <option value="">{t.order.sizePlaceholder}</option>
           <option value="250ml">250ml</option>
           <option value="500ml">500ml</option>
           <option value="700ml">700ml</option>
@@ -99,21 +116,21 @@
         <label
           for="order-notes"
           class="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-stone-soft"
-          >Customization note</label
+          >{t.order.labels.notes}</label
         >
         <textarea
           id="order-notes"
           name="notes"
           rows={3}
           class="w-full resize-y rounded-xl border border-gold-light/40 bg-cream/30 px-4 py-3 text-sm text-ink transition-colors placeholder:text-stone-soft/60 focus:border-gold focus:bg-white focus:outline-none"
-          placeholder="Sweetness, intensity, batch requests, gift message…"
+          placeholder={t.order.placeholders.notes}
         ></textarea>
       </div>
       <button
         type="submit"
         class="w-full rounded-full bg-ink py-4 text-sm font-semibold text-cream transition-colors duration-300 hover:bg-gold-dark hover:shadow-card"
       >
-        Place Order
+        {t.order.button}
       </button>
     </form>
   </div>
@@ -130,7 +147,7 @@
       var hasEmail = email && email.value.trim();
       var hasPhone = phone && phone.value.trim();
       if (!hasEmail && !hasPhone) {
-        alert("Please enter an email or phone number so we can confirm your order.");
+        alert(form.dataset.alert || "Please enter an email or phone number so we can confirm your order.");
         return;
       }
       var name = document.getElementById("order-name");
@@ -139,16 +156,15 @@
       var notes = document.getElementById("order-notes");
 
       var messageLines = [
-        "Yeni limoncello siparis istegi",
-        "Name: " + (name && name.value ? name.value.trim() : "-"),
-        "Email: " + (email && email.value ? email.value.trim() : "-"),
-        "Phone: " + (phone && phone.value ? phone.value.trim() : "-"),
-        "Address: " + (address && address.value ? address.value.trim() : "-"),
-        "Bottle size: " + (size && size.value ? size.value : "-"),
-        "Customization: " + (notes && notes.value ? notes.value.trim() : "-"),
+        form.dataset.messageTitle || "New limoncello order request",
+        (form.dataset.labelName || "Name") + ": " + (name && name.value ? name.value.trim() : "-"),
+        (form.dataset.labelEmail || "Email") + ": " + (email && email.value ? email.value.trim() : "-"),
+        (form.dataset.labelPhone || "Phone") + ": " + (phone && phone.value ? phone.value.trim() : "-"),
+        (form.dataset.labelAddress || "Address") + ": " + (address && address.value ? address.value.trim() : "-"),
+        (form.dataset.labelSize || "Bottle size") + ": " + (size && size.value ? size.value : "-"),
+        (form.dataset.labelCustomization || "Customization") + ": " + (notes && notes.value ? notes.value.trim() : "-"),
       ];
 
-      // Turkey (TR) number without '+' for wa.me.
       var waNumber = "905313186674";
       var waUrl =
         "https://wa.me/" +

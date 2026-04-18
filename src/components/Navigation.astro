@@ -1,13 +1,24 @@
 ---
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import type { Locale } from "../i18n/config";
+import type { Messages } from "../i18n/messages";
+
+interface Props {
+  locale: Locale;
+  t: Messages;
+}
+
+const { locale, t } = Astro.props;
+
 const links = [
-  { href: "#story", label: "Story" },
-  { href: "#highlights", label: "Craft" },
-  { href: "#ingredients", label: "Ingredients" },
-  { href: "#customize", label: "Customize" },
-  { href: "#showcase", label: "Shop" },
-  { href: "#experience", label: "Experience" },
-  { href: "#order", label: "Order" },
-  { href: "#footer-contact", label: "Contact" },
+  { href: "#story", label: t.nav.story },
+  { href: "#highlights", label: t.nav.craft },
+  { href: "#ingredients", label: t.nav.ingredients },
+  { href: "#customize", label: t.nav.customize },
+  { href: "#showcase", label: t.nav.shop },
+  { href: "#experience", label: t.nav.experience },
+  { href: "#order", label: t.nav.order },
+  { href: "#footer-contact", label: t.nav.contact },
 ];
 ---
 
@@ -17,8 +28,8 @@ const links = [
   data-over-visual="true"
 >
   <nav
-    class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-6 md:py-4"
-    aria-label="Primary"
+    class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 md:gap-4 md:px-6 md:py-4"
+    aria-label={t.nav.aria}
   >
     <a
       href="#hero"
@@ -27,10 +38,10 @@ const links = [
       <span
         class="flex h-8 w-8 items-center justify-center rounded-full bg-white/70 text-lg shadow-sm ring-1 ring-lemon-300/40 transition-transform duration-300 group-hover:scale-105"
         aria-hidden="true">🍋</span>
-      <span class="hidden sm:inline">Kaş Limoncello</span>
+      <span class="hidden sm:inline">{t.brand.name}</span>
     </a>
     <ul
-      class="-mr-2 flex max-w-[min(100vw-8rem,28rem)] flex-nowrap items-center justify-end gap-0.5 overflow-x-auto pb-1 text-xs font-medium text-ink/85 md:max-w-none md:flex-wrap md:gap-2 md:overflow-visible md:pb-0 md:text-sm"
+      class="-mr-2 flex max-w-[min(100vw-12rem,26rem)] flex-nowrap items-center justify-end gap-0.5 overflow-x-auto pb-1 text-xs font-medium text-ink/85 md:max-w-none md:flex-wrap md:gap-2 md:overflow-visible md:pb-0 md:text-sm"
     >
       {
         links.map(({ href, label }) => (
@@ -45,6 +56,7 @@ const links = [
         ))
       }
     </ul>
+    <LanguageSwitcher locale={locale} t={t} />
   </nav>
 </header>
 
